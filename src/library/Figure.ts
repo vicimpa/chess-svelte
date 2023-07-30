@@ -27,8 +27,17 @@ export class Figure {
   calcPositions(move: TVec[], eat = move, repeat = 1) {
     const out: number[] = [];
 
-    if (this.position === -1)
+    if (this.position === -1) {
+      for (let x = 0; x < 8; x++) {
+        for (let y = 0; y < 8; y++) {
+          const pos = this.vecToPos(x, y);
+          if (!this.map[pos])
+            out.push(pos);
+        }
+      }
+
       return out;
+    }
 
     const [X, Y] = this.posToVec();
 
