@@ -1,0 +1,61 @@
+html, body
+  width: 100vw
+  height: 100vh
+
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+body
+  display: flex
+  justify-content: center
+  align-items: center
+
+#app
+  display: flex
+  flex-direction: column
+  gap: 10px
+
+$size: 70px
+
+.map
+  display: grid
+  grid-template-columns: repeat(8, $size)
+  border: 2px solid #999
+
+  .item
+    position: relative
+    display: block
+    display: flex
+    width: $size
+    height: $size
+    border: 2px solid #999
+    user-select: none
+    cursor: pointer
+    font-size: 50px
+
+    justify-content: center
+    align-items: center
+
+    &[data-select="true"]
+      border-color: #f00
+
+    &[data-can-move="true"]
+      border-color: #ec9caf
+
+      &::before
+        content: ' '
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        background-color: #ec9caf20
+
+    &[data-pos="0"]
+      background-color: #eee
+
+    &[data-pos="1"]
+      background-color: #666
