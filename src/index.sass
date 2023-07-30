@@ -1,3 +1,5 @@
+@use 'sass:math'
+
 html, body
   width: 100vw
   height: 100vh
@@ -66,11 +68,11 @@ p
 .list
   display: flex
   flex-wrap: wrap
-  height: $size / 4
+  height: math.div($size, 4)
 
   .item
-    width: $size / 4
-    height: $size / 4
+    width: math.div($size, 4)
+    height: math.div($size, 4)
     font-size: 16px
     border-width: 1px
     background-color: #eee
