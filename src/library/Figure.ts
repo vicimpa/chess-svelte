@@ -2,19 +2,17 @@ import type { GameMap, TVec } from "./GameMap";
 
 export class Figure {
   #map!: GameMap;
-  #player: number;
-
+  player!: number;
   chars: string = '  ';
 
   constructor(player: number, map: GameMap) {
-    this.#player = player;
+    this.player = player;
     this.#map = map;
   }
 
   get map() { return this.#map; }
-  get player() { return this.#player; }
   get position() { return this.#map?.indexOf(this) ?? -1; }
-  get char() { return this.chars[this.#player] ?? ''; }
+  get char() { return this.chars[this.player] ?? ''; }
 
   positions(): number[] {
     const { map } = this;
