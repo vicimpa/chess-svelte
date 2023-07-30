@@ -3,15 +3,19 @@
   import { GameMap } from "library/GameMap";
 
   let map = new GameMap();
+  let removes = new Set<Figure>();
 
   map.appendFigures();
 
   let select: Figure | null = null;
   $: positions = select?.positions();
 
-  function move(fig: Figure, to: number) {
-    if (fig.position !== -1) map[fig.position] = null;
+  function move(fig: Figure | null, to: number) {
+    if (fig) removes.delete(fig);
+    if (fig && fig.position !== -1) map[fig.position] = null;
+    if (map[to]) removes.add(map[to]!);
     map[to] = select;
+    removes = removes;
     select = null;
   }
 
@@ -20,11 +24,13 @@
       switch (e.button) {
         case 0: {
           if (select && positions?.includes(i)) {
-            return move(select, i);
+            move(select, i);
+            return;
           }
 
           if (!map[i] || select === map[i]) {
-            return (select = null);
+            select = null;
+            return;
           }
 
           select = map[i];
@@ -33,12 +39,14 @@
 
         case 1: {
           if (select) {
-            return move(select, i);
+            move(select, i);
           }
+          return;
         }
 
         case 2: {
-          return (map[i] = null);
+          move(null, i);
+          return;
         }
       }
     };
@@ -47,6 +55,28 @@
 
 <p>Select: {select?.position ?? -1} {JSON.stringify(select)}</p>
 <p>Positions: {JSON.stringify(positions)}</p>
+
+<p>
+  <b>ЛКМ</b> - Выбор и перемещение (по правилам) <br />
+  <b>СКМ</b> - Перемещение выбранной фигуры в любую клетку <br />
+  <b>ПКМ</b> - Удаление фигуры <br /> <br />
+  Исходный код искать на
+  <a href="https://github.com/vicimpa/chess-svelte">GitHub</a>
+</p>
+
+<p>Удалённые фигуры</p>
+
+<div class="list">
+  {#each [...removes] as val}
+    <div
+      class="item"
+      data-select={val && val === select}
+      on:mousedown={({ button }) => !button && (select = val)}
+    >
+      {val?.char ?? ""}
+    </div>
+  {/each}
+</div>
 
 <div class="map">
   {#each map as val, i}
@@ -61,5 +91,3 @@
     </div>
   {/each}
 </div>
-
-<a href="https://github.com/vicimpa/chess-svelte">GitHub</a>

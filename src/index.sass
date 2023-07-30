@@ -21,41 +21,53 @@ $size: 70px
 
 .map
   display: grid
-  grid-template-columns: repeat(8, $size)
   border: 2px solid #999
+  grid-template-columns: repeat(8, $size)
+
+.item
+  position: relative
+  display: block
+  display: flex
+  width: $size
+  height: $size
+  border: 2px solid #999
+  user-select: none
+  cursor: pointer
+  font-size: 50px
+
+  justify-content: center
+  align-items: center
+
+  &[data-select="true"]
+    border-color: #f00
+
+  &[data-can-move="true"]
+    border-color: #ec9caf
+
+    &::before
+      content: ' '
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      background-color: #ec9caf20
+
+  &[data-pos="0"]
+    background-color: #eee
+
+  &[data-pos="1"]
+    background-color: #666
+
+.list
+  display: flex
+  flex-wrap: wrap
+  height: $size / 4
 
   .item
-    position: relative
-    display: block
-    display: flex
-    width: $size
-    height: $size
-    border: 2px solid #999
-    user-select: none
-    cursor: pointer
-    font-size: 50px
-
-    justify-content: center
-    align-items: center
-
-    &[data-select="true"]
-      border-color: #f00
-
-    &[data-can-move="true"]
-      border-color: #ec9caf
-
-      &::before
-        content: ' '
-        display: block
-        position: absolute
-        top: 0
-        left: 0
-        right: 0
-        bottom: 0
-        background-color: #ec9caf20
-
-    &[data-pos="0"]
-      background-color: #eee
-
-    &[data-pos="1"]
-      background-color: #666
+    width: $size / 4
+    height: $size / 4
+    font-size: 16px
+    border-width: 1px
+    background-color: #eee
