@@ -61,3 +61,5 @@
     </div>
   {/each}
 </div>
+
+<a href="https://github.com/vicimpa/chess-svelte">GitHub</a>
