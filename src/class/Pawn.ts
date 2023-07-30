@@ -1,33 +1,21 @@
 import { Figure } from "library/Figure";
 
+import type { TVec } from "library/GameMap";
+
 export class Pawn extends Figure {
   chars = '♙♟';
 
   positions(): number[] {
-    const out: number[] = [];
+    const move: TVec[] = [
+      [0, 1]
+    ];
 
-    if (this.position === -1)
-      return out;
+    if (this.posToVec()[1] === 1)
+      move.push([0, 2]);
 
-    const [x, y] = this.posToVec();
-
-    for (let i = 1; i <= (y === 1 ? 2 : 1); i++) {
-      const pos = this.vecToPos(x, y + i);
-
-      if (this.map[pos])
-        break;
-
-      out.push(pos);
-    }
-
-    for (let i = -1; i < 2; i += 2) {
-      const pos = this.vecToPos(x + i, y + 1);
-      const fig = this.map[pos];
-
-      if (fig?.isOtherPlayer(this))
-        out.push(pos);
-    }
-
-    return out;
+    return this.calcPositions(move, [
+      [-1, 1],
+      [1, 1]
+    ]);
   }
 }

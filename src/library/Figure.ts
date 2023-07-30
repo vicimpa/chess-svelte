@@ -26,6 +26,39 @@ export class Figure {
     return [];
   }
 
+  calcPositions(move: TVec[], eat = move, repeat = 1) {
+    const out: number[] = [];
+
+    if (this.position === -1)
+      return out;
+
+    const [X, Y] = this.posToVec();
+
+    for (const pair of new Set([...move, ...eat])) {
+      const [a, b] = pair;
+      const hasEat = eat.includes(pair);
+      const hasMove = move.includes(pair);
+
+      for (let i = 1; i <= repeat; i++) {
+        const x = X + a * i, y = Y + b * i;
+        const pos = this.vecToPos(x, y);
+        const fig = this.map[pos];
+        if (x < 0 || x > 7) break;
+        if (y < 0 || y > 7) break;
+
+        if (fig) {
+          if (fig.isOtherPlayer(this) && hasEat)
+            out.push(pos);
+          break;
+        } else if (hasMove) {
+          out.push(pos);
+        }
+      }
+    }
+
+    return out;
+  }
+
   posToVec(n: number = this.position) {
     const { map, player } = this;
     const pos = map.posToVec(n);
