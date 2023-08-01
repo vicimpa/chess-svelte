@@ -45,7 +45,10 @@
         }
 
         case 2: {
-          if (select) return;
+          if (select) {
+            select = null;
+            return;
+          }
           move(null, i);
           return;
         }
