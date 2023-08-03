@@ -26,6 +26,14 @@
     select = null;
   }
 
+  function reset() {
+    map.fill(null);
+    map.appendFigures();
+    removes.clear();
+    map = map;
+    removes = removes;
+  }
+
   function mouseClick(i: number) {
     return (e: MouseEvent) => {
       switch (e.button) {
@@ -75,10 +83,10 @@
 </p>
 
 <p>
-  Направление карты
   <button on:click={(_) => (reverse = !reverse)}>
-    {reverse ? "черные" : "белые"}
-  </button>
+    Перевернуть ({reverse ? "↑" : "↓"})</button
+  >
+  <button on:click={reset}> Сбросить </button>
 </p>
 
 <div class="content">
