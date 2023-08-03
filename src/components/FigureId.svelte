@@ -1,14 +1,9 @@
 <script lang="ts">
   export let index: string | number = -1;
-
-  $: if (typeof index === "string") {
-    index = +index;
-  }
-
   export let position = index;
 
-  $: i = index;
-  $: p = position;
+  $: i = +index;
+  $: p = +position;
 
   function charWith(start: string, index: number) {
     return String.fromCharCode(start.charCodeAt(0) + index);
