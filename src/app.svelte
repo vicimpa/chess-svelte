@@ -1,14 +1,21 @@
 <script lang="ts">
+  import FigureId from "components/FigureId.svelte";
   import type { Figure } from "library/Figure";
   import { GameMap } from "library/GameMap";
 
   let map = new GameMap();
   let removes = new Set<Figure>();
+  let reverse = false;
 
   map.appendFigures();
 
   let select: Figure | null = null;
+
   $: positions = select?.positions();
+  $: normalMap = Object.entries(map).map<[number, Figure | null]>(
+    ([i, val]) => [+i, val]
+  );
+  $: reversedMap = [...normalMap].reverse();
 
   function move(fig: Figure | null, to: number) {
     if (fig) removes.delete(fig);
@@ -58,7 +65,6 @@
 </script>
 
 <p>Select: {select?.position ?? -1} {JSON.stringify(select)}</p>
-<p>Positions: {JSON.stringify(positions)}</p>
 
 <p>
   <b>ЛКМ</b> - Выбор и перемещение (по правилам) <br />
@@ -82,16 +88,31 @@
   {/each}
 </div>
 
+<p>
+  Направление карты
+  <button on:click={(_) => (reverse = !reverse)}>
+    {reverse ? "черные" : "белые"}
+  </button>
+</p>
+
 <div class="map">
-  {#each map as val, i}
+  {#each reverse ? reversedMap : normalMap as [i, val], j}
     <div
       class="item"
       data-pos={(i + i / 8) & 1}
       data-select={val && val === select}
       data-can-move={positions?.includes(i)}
+      data-negative={val?.player === 0}
       on:mousedown={mouseClick(i)}
     >
+      <FigureId index={i} position={j} />
+
       {val?.char ?? ""}
     </div>
   {/each}
 </div>
+
+<style lang="sass">
+  .map 
+    margin: 10px
+</style>

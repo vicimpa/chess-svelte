@@ -27,27 +27,27 @@ export class GameMap extends Array<Figure | null> {
     for (let i = 0; i < 2; i++) {
       // Пешки
       for (let j = 0; j < 8; j++) {
-        this[8 + i * 40 + j] = new Pawn(i, this);
+        this[8 + i * 40 + j] = new Pawn(1 - i, this);
       }
 
       // Ладьи
       for (let j = 0; j < 2; j++) {
-        this[i * 56 + j * 7] = new Rook(i, this);
+        this[i * 56 + j * 7] = new Rook(1 - i, this);
       }
 
       // Кони
       for (let j = 0; j < 2; j++) {
-        this[i * 56 + j * 5 + 1] = new Knight(i, this);
+        this[i * 56 + j * 5 + 1] = new Knight(1 - i, this);
       }
 
       // Слоны
       for (let j = 0; j < 2; j++) {
-        this[i * 56 + j * 3 + 2] = new Bishop(i, this);
+        this[i * 56 + j * 3 + 2] = new Bishop(1 - i, this);
       }
 
       // Короли и Ферзи
       for (let j = 0; j < 2; j++) {
-        this[i * 56 + j + 3] = new [Queen, King][j](i, this);
+        this[i * 56 + j + 3] = new [Queen, King][j](1 - i, this);
       }
     }
   }
