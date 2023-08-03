@@ -69,13 +69,13 @@ export class Figure {
   posToVec(n: number = this.position) {
     const { map, player } = this;
     const pos = map.posToVec(n);
-    if (player) pos[1] = 7 - pos[1];
+    if (!player) pos[1] = 7 - pos[1];
     return pos;
   }
 
   vecToPos(x: number, y: number) {
     const { map, player } = this;
-    if (player) y = 7 - y;
+    if (!player) y = 7 - y;
     return map.vecToPos(x, y);
   }
 
