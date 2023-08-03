@@ -74,20 +74,6 @@
   <a href="https://github.com/vicimpa/chess-svelte">GitHub</a>
 </p>
 
-<p>Удалённые фигуры</p>
-
-<div class="list">
-  {#each [...removes] as val}
-    <div
-      class="item"
-      data-select={val && val === select}
-      on:mousedown={({ button }) => !button && (select = val)}
-    >
-      {val?.char ?? ""}
-    </div>
-  {/each}
-</div>
-
 <p>
   Направление карты
   <button on:click={(_) => (reverse = !reverse)}>
@@ -95,21 +81,51 @@
   </button>
 </p>
 
-<div class="map">
-  {#each reverse ? reversedMap : normalMap as [i, val], j}
-    <div
-      class="item"
-      data-pos={(i + i / 8) & 1}
-      data-select={val && val === select}
-      data-can-move={positions?.includes(i)}
-      data-negative={val?.player === 0}
-      on:mousedown={mouseClick(i)}
-    >
-      <FigureId index={i} position={j} />
+<div class="content">
+  <div class="list">
+    {#each [...removes] as val}
+      {#if val && !!val?.player === reverse}
+        <div
+          class="item"
+          data-select={val && val === select}
+          on:mousedown={({ button }) => !button && (select = val)}
+        >
+          {val?.char ?? ""}
+        </div>
+      {/if}
+    {/each}
+  </div>
 
-      {val?.char ?? ""}
-    </div>
-  {/each}
+  <div class="map">
+    {#each reverse ? reversedMap : normalMap as [i, val], j}
+      <div
+        class="item"
+        data-pos={(i + i / 8) & 1}
+        data-select={val && val === select}
+        data-can-move={positions?.includes(i)}
+        data-negative={val?.player === 0}
+        on:mousedown={mouseClick(i)}
+      >
+        <FigureId index={i} position={j} />
+
+        {val?.char ?? ""}
+      </div>
+    {/each}
+  </div>
+
+  <div class="list">
+    {#each [...removes] as val}
+      {#if val && !val?.player === reverse}
+        <div
+          class="item"
+          data-select={val && val === select}
+          on:mousedown={({ button }) => !button && (select = val)}
+        >
+          {val?.char ?? ""}
+        </div>
+      {/if}
+    {/each}
+  </div>
 </div>
 
 <style lang="sass">
