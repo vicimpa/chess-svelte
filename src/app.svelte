@@ -2,6 +2,7 @@
   import FigureId from "components/FigureId.svelte";
   import type { Figure } from "library/Figure";
   import { GameMap } from "library/GameMap";
+  import { indexToName } from "library/indexToName";
 
   let map = new GameMap();
   let removes = new Set<Figure>();
@@ -72,7 +73,11 @@
   }
 </script>
 
-<p>Select: {select?.position ?? -1} {JSON.stringify(select)}</p>
+<p>
+  Select: {select?.position ?? -1} ( {select
+    ? indexToName(select.position).join(" ")
+    : "null"} ) {JSON.stringify(select)}
+</p>
 
 <p>
   <b>ЛКМ</b> - Выбор и перемещение (по правилам) <br />

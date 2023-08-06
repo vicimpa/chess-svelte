@@ -1,36 +1,36 @@
 <script lang="ts">
+  import { indexToName } from "library/indexToName";
+
   export let index: string | number = -1;
   export let position = index;
 
   $: i = +index;
   $: p = +position;
 
-  function charWith(start: string, index: number) {
-    return String.fromCharCode(start.charCodeAt(0) + index);
-  }
+  $: [a, b] = indexToName(i);
 </script>
 
 {#if p >= 0 && p <= 7}
   <span class="top">
-    {charWith("A", i % 8)}
+    {a}
   </span>
 {/if}
 
 {#if p >= 56 && p <= 63}
   <span class="bottom">
-    {charWith("A", i % 8)}
+    {a}
   </span>
 {/if}
 
 {#if p % 8 === 0}
   <span class="left">
-    {charWith("1", (i / 8) | 0)}
+    {b}
   </span>
 {/if}
 
 {#if p % 8 === 7}
   <span class="right">
-    {charWith("1", (i / 8) | 0)}
+    {b}
   </span>
 {/if}
 
